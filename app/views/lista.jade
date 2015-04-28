@@ -1,3 +1,14 @@
 extends layout
 block content
     h1= lista
+    ul
+        each item in itens
+            li
+                input(type='checkbox', class='check-item',
+                    id="item"+item.id
+                    checked=(item.concluido ? "checked" : undefined)
+                    data-id=item.id)
+                label(for="item"+item.id, class=(item.concluido ? "done" : undefined))= item.descricao
+
+block scripts
+    script(src="/javascripts/lista.js")

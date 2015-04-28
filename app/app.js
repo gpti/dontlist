@@ -7,15 +7,16 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 //Sistema
-var routes = require('./routes/index');
-var app = express();
-
 var mysql      = require('mysql');
-var connection = mysql.createConnection({
+var db = mysql.createConnection({
 	host     : 'localhost',
+	database : 'dontlist',
 	user     : 'root',
 	password : ''
 });
+express.db = db;
+var routes = require('./routes/index');
+var app = express();
 
 
 // view engine setup
@@ -63,5 +64,4 @@ app.use(function(err, req, res, next) {
   });
 });
 
-express.connection = connection;
 module.exports = app;
