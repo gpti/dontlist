@@ -3,12 +3,19 @@ block content
     h1= lista
     ul
         each item in itens
-            li
+            li.item
                 input(type='checkbox', class='check-item',
                     id="item"+item.id
                     checked=(item.concluido ? "checked" : undefined)
                     data-id=item.id)
                 label(for="item"+item.id, class=(item.concluido ? "done" : undefined))= item.descricao
+                a(href='javascript:void(0)', class='delete' ,title='remover item', style='padding-left: 5px;display:none') x
+        li
+            form(id="newItemForm")
+                input(type='text',
+                    id="newItem",
+                    name="newItem",
+                    placeholder="Nova tarefa...")
 
 block scripts
     script(src="/javascripts/lista.js")

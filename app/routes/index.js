@@ -3,20 +3,20 @@ var router = express.Router();
 var db = express.db;
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.route('/').get(function(req, res, next) {
 	res.render('index', { title: 'DontList' });
 });
 
-router.get('/concluir-item', function(req, res){
+router.route('/concluir-item').post(function(req, res){
 
-	db.query("UPDATE itens SET concluido = " + req.query.concluido + " WHERE id = " + req.query.id,
+	db.query("UPDATE itens SET concluido = " + req.body.concluido + " WHERE id = " + req.body.id,
 		function(err,rows,fields) {
 		}
 	);
 
 });
 
-router.get('/:lista', function(req, res) {
+router.route('/:lista').get(function(req, res) {
 	var lista = req.params.lista;
 
 	db.query("SELECT id FROM listas WHERE nome = '" + lista +"'" ,
@@ -42,6 +42,29 @@ router.get('/:lista', function(req, res) {
 				res.render('lista', data);
 			});
 		}
+	});
+});
+
+
+router.route('/:lista/novo-item').post(function(req, res){
+	var lista = req.params.lista;
+
+	db.query("SELECT id FROM listas WHERE nome = '" + lista +"'" ,
+		function(err,rows,fields) {
+			var id = rows[0].id;
+			var descricao = req.body.descricao;
+
+			db.query('INSERT INTO itens (descricao, lista_id) VALUES ("'+descricao+'", '+id+')',
+				function(err,rows,fields){
+					res.send(200, rows.insertId);
+				});
+		});
+});
+
+router.route("/deletar-item").post(function(req, res){
+	var id = req.body.id;
+	db.query("DELETE FROM itens WHERE id = ?", id, function(err, rows, fields){
+		if(!err) res.send(200);
 	});
 });
 
