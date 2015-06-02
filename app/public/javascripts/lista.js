@@ -1,6 +1,6 @@
 $(function() {
 
-	$(".delete").on("click", function() {
+	$(".lista").on("click", ".delete", function() {
 		var id = $(this).siblings("input").data('id');
 		var that = $(this);
 		$.ajax("/deletar-item", {
@@ -12,7 +12,7 @@ $(function() {
 		})
 	});
 
-	$(".check-item").on("change", function() {
+	$(".lista").on("change", ".check-item", function() {
 		$(this).siblings("label").toggleClass("done");
 
 		$.ajax("/concluir-item", {
@@ -53,7 +53,7 @@ $(function() {
 						"' data-id='" + id +
 					"' class='check-item'>" +
 					"<label for='item" + id + "'>" + a.val() + "</label>" +
-					"<a href='javascript:void(0)' title='remover item' style='padding-left: 5px;display:none'>x</a>"+
+					"<a href='javascript:void(0)' title='remover item' style='padding-left: 5px;display:none' class='delete'>x</a>"+
 					"</li>"
 				);
 				a.val("");

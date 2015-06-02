@@ -1,7 +1,11 @@
 extends layout
 block content
     h1= lista
-    ul
+    ul.children
+        each list in childrenLists
+            li
+                a(href="/"+list.nome)= list.nome.substr(lista.length+1)
+    ul.lista
         each item in itens
             li.item
                 input(type='checkbox', class='check-item',
